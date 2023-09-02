@@ -303,15 +303,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e56fc62ba90f7b54dbd0f996298d2260, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Name: 
-  Description: 
-  image: 
-  HP: 0
-  current_HP: 0
-  Ability: 0
   txt_name: {fileID: 4622231024250841739}
   txt_description: {fileID: 4464694599261963405}
-  img_thumbnail: {fileID: 1781007022573382565}
+  img_thumbnail: {fileID: 3133789229643390820}
   txt_HP: {fileID: 6346034742819652197}
   txt_Ability: {fileID: 6637899407478445977}
 --- !u!1 &1781007022573382565

@@ -195,6 +195,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cards: []
+  canvas: {fileID: 1930051351}
+  CardDetail: {fileID: 1770985334386367850, guid: 134c6c26b1bbe4248aa7caad13b50bcb, type: 3}
+  CardSimple: {fileID: 7967918661674868439, guid: 784de3a492a1c6b46947491cc0be3fab, type: 3}
 --- !u!1 &1711101890
 GameObject:
   m_ObjectHideFlags: 0

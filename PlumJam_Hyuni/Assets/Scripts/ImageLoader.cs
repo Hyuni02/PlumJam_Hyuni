@@ -12,6 +12,10 @@ public class ImageLoader : MonoBehaviour {
         instance = this;
     }
 
+    private void Start() {
+        LoadSprite();
+    }
+
     void LoadSprite() {
         Sprite[] sprites = Resources.LoadAll<Sprite>("Image/student");
         foreach(var s in sprites) {
@@ -24,6 +28,9 @@ public class ImageLoader : MonoBehaviour {
 
         if(sprite == null) {
             Debug.LogWarning($"No sprite : {code}");
+        }
+        else {
+            Debug.Log($"Get sprite : {code}");
         }
 
         return sprite;
