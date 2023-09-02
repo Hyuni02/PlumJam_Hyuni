@@ -297,7 +297,10 @@ public class GameManager : MonoBehaviour
             Canvas_Schedule.SetActive(true);
             Notification("즐거운 콘서트", "좋아하던 아이돌을 실제로 눈앞에서 보다니 ㅠㅠ", ImageLoader.instance.GetSprite("concert"));
             pn_notification.transform.GetChild(0).GetChild(0).GetComponent<Button>().onClick.AddListener(() => {
-                Notification("아쉽지만 여기까지", "현재 구현된 부분은 여기까지 입니다. \n 시간도 부족하고 실력도 부족해서 완성도도 떨어지지만 플레이 해주셔서 감사합니다.");
+                Notification("아쉽지만 여기까지", "현재 구현된 부분은 여기까지 입니다. \n 시간도 부족하고 실력도 부족해서 완성도도 떨어지지만 플레이 해주셔서 감사합니다.\n출튀, 14주차 게임진행, 중간고사, 기말고사, 이벤트성 휴강, 학생 강화, 수업 애니메이션 등등 만들고 싶은건 많았지만 시간과 실력이 따라주지 않네요.");
+                pn_notification.transform.GetChild(0).GetChild(0).GetComponent<Button>().onClick.AddListener(() => {
+                    SceneManager.LoadScene("1.Lobby");
+                });
             });
             return;
         }
