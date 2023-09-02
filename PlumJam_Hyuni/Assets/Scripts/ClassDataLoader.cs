@@ -4,6 +4,7 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 using System;
 using System.Linq;
+
 [Serializable]
 public class cClass {
     public string name;

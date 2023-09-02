@@ -14,15 +14,23 @@ public class GameManager : MonoBehaviour
 
     public GameObject selectedClass;
 
+    public GameObject Canvas_Schedule;
+    public GameObject Canvas_Class;
+
     Week e_week;
-    int week = 1;
-    int maxweek = 14;
+    //int week = 1;
+    //int maxweek = 14;
+    int level = 1;
+    int phase = 0;
+    List<List<Lesson>> lst_lessons;
 
     void Start()
     {
         Debug.LogWarning("저장 데이터 불러오기 미구현");
         Clear_Week();
         WeekSchedule();
+        Canvas_Schedule.SetActive(true);
+        Canvas_Class.SetActive(false);
     }
 
     void Clear_Week() {
@@ -131,6 +139,14 @@ public class GameManager : MonoBehaviour
         print($"수강 완료 : {selectedClass.GetComponent<ClassInfo>().info.name}");
         Instantiate(PrefabContainer.instance.img_Clear, selectedClass.transform);
         selectedClass.GetComponent<ClassInfo>().clear = true;
+        Debug.LogWarning("학점 변경 미구현");
+    }
+
+    public void FailClass() {
+        print($"수강 실패 : {selectedClass.GetComponent<ClassInfo>().info.name}");
+        Instantiate(PrefabContainer.instance.img_Fail, selectedClass.transform);
+        selectedClass.GetComponent<ClassInfo>().clear = true;
+        Debug.LogWarning("학점 변경 미구현");
     }
 
     void EmphasizeToday() {
@@ -151,6 +167,31 @@ public class GameManager : MonoBehaviour
         }
         else {
             pn_WeekInfo.instance.btn_Totomorrow.interactable = true;
+        }
+    }
+
+    public void SetClass() {
+        pn_class.instance.img_prof.sprite = selectedClass.GetComponent<ClassInfo>().sprite;
+        pn_class.instance.txt_classname.SetText(selectedClass.GetComponent<ClassInfo>().info.name);
+        //StartLesson();
+    }
+
+    public void ShowStudents() {
+        Debug.LogWarning("보유 학생 보기 미구현");
+    }
+
+    void StartLesson() {
+        Debug.LogWarning("교수 인사 미구현");
+
+        lst_lessons = new List<List<Lesson>>();
+        phase = (int)Random.Range(0, 2 + level) + 1;
+        for(int i = 0; i < phase; i++) {
+            int lesson = (int)Random.Range(0, 2 + level) + 1;
+            for(int j = 0; j < lesson; j++) {
+                Lesson l = LessonDataLoader.instance.GetLessonData(selectedClass.GetComponent<ClassInfo>().info.prof);
+                //lst_lessons[i].Add(l);
+                print($"phase {i} : {l.type} : {l.des}");
+            }
         }
     }
 }

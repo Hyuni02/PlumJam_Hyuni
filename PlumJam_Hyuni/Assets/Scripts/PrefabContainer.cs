@@ -11,6 +11,7 @@ public class PrefabContainer : MonoBehaviour
     public GameObject WeekEnd;
     public Button btn_Class;
     public GameObject img_Clear;
+    public GameObject img_Fail;
 
     public static PrefabContainer instance;
 

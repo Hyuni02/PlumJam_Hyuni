@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 using System;
+
 [Serializable]
 public class cProfessor {
     public string name;
