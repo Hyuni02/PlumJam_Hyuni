@@ -47,6 +47,12 @@ public class GameManager : MonoBehaviour
         lst_Student.Add(jo);
     }
 
+    public void Update() {
+        if (Input.GetKeyDown(KeyCode.Space)) {
+            ToTomorrow();
+        }
+    }
+
     void Clear_Week() {
         for(int i = 0; i < vp_Week.childCount; i++) {
             Destroy(vp_Week.GetChild(i).gameObject);
@@ -99,7 +105,7 @@ public class GameManager : MonoBehaviour
         Button btn = Instantiate(PrefabContainer.instance.btn_Class, day.GetComponent<Day>().pn_Classess);
         btn.GetComponent<Image>().sprite = ImageLoader.instance.GetSprite("rest");
         btn.GetComponent<ClassInfo>().info.name = "주말은 쉬는 날";
-        btn.GetComponent<ClassInfo>().info.prof = "";
+        btn.GetComponent<ClassInfo>().info.prof = "주말";
         btn.GetComponent<ClassInfo>().info.des= "일주일 중 유일한 휴식시간";
         btn.GetComponent<ClassInfo>().sprite = ImageLoader.instance.GetSprite("rest");
         btn.onClick.AddListener(() => ShowClassDetail(btn.GetComponent<ClassInfo>()));
@@ -185,6 +191,19 @@ public class GameManager : MonoBehaviour
     }
 
     public void SetClass() {
+        if(selectedClass.GetComponent<ClassInfo>().info.prof == "주말") {
+            foreach(var stu in lst_Student) {
+                stu.current_HP = stu.HP;
+            }
+            ClearClass();
+            pn_WeekInfo.instance.btn_Totomorrow.interactable = true;
+
+            Debug.LogWarning("체력 회복 알림 미구현");
+
+            Canvas_Class.SetActive(false);
+            Canvas_Schedule.SetActive(true);
+            return;
+        }
         pn_class.instance.img_prof.sprite = selectedClass.GetComponent<ClassInfo>().sprite;
         pn_class.instance.txt_classname.SetText(selectedClass.GetComponent<ClassInfo>().info.name);
         StartLesson();
@@ -238,22 +257,21 @@ public class GameManager : MonoBehaviour
 
     public void EndPlayerTurn() {
         print("플레이어 턴 종료");
-        Debug.LogWarning("판정 미구현");
         bool win = true;
         //판정 부분
         foreach(var assign in Assignment) {
             if(assign.image == "수업") {
-                //if (lst_Field.Count == 0) {
-                //    win = false;
-                //    break;
-                //}
-                //for(int i=0;i<lst_Field.Count;i++) {
-                //    lst_Field[i].current_HP--;
-                //    if(lst_Field[i].current_HP <= 0) {
-                //        lst_Student.Add(lst_Field[i]);
-                //        lst_Field.Remove(lst_Field[i]);
-                //    }
-                //}
+                if (lst_Field.Count == 0) {
+                    win = false;
+                    break;
+                }
+                for (int i = 0; i < lst_Field.Count; i++) {
+                    lst_Field[i].current_HP--;
+                    if (lst_Field[i].current_HP <= 0) {
+                        lst_Student.Add(lst_Field[i]);
+                        lst_Field.Remove(lst_Field[i]);
+                    }
+                }
             }
             if(assign.image == "질문") {
                 win = false;
@@ -272,20 +290,20 @@ public class GameManager : MonoBehaviour
                 }
             }
             if (assign.image == "연습문제") {
-                //win = false;
-                //for(int i = 0; i < lst_Field.Count; i++) {
-                //    lst_Field[i].current_HP--;
-                //    if(lst_Field[i].Ability >= assign.Ability) {
-                //        win = true;
-                //        break;
-                //    }
-                //}
-                //for (int i = 0; i < lst_Field.Count; i++) {
-                //    if (lst_Field[i].current_HP <= 0) {
-                //        lst_Student.Add(lst_Field[i]);
-                //        lst_Field.Remove(lst_Field[i]);
-                //    }
-                //}
+                win = false;
+                for (int i = 0; i < lst_Field.Count; i++) {
+                    lst_Field[i].current_HP--;
+                    if (lst_Field[i].Ability >= assign.Ability) {
+                        win = true;
+                        break;
+                    }
+                }
+                for (int i = 0; i < lst_Field.Count; i++) {
+                    if (lst_Field[i].current_HP <= 0) {
+                        lst_Student.Add(lst_Field[i]);
+                        lst_Field.Remove(lst_Field[i]);
+                    }
+                }
             }
         }
         UpdatePlayerHand();

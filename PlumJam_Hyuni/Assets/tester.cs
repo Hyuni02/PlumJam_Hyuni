@@ -12,16 +12,18 @@ public class tester : MonoBehaviour
     public GameObject CardSimple;
 
     private void Start() {
-        Card hyunji = new Card("±èÇöÁö");
-        cards.Add(hyunji);
+        //Card hyunji = new Card("±èÇöÁö");
+        //cards.Add(hyunji);
 
-        foreach(var card in cards) {
-            GameObject newCard = Instantiate(CardDetail, canvas.transform);
-            newCard.GetComponent<Card_Detail>().Set(card);
-        }
-        foreach(var card in cards) {
-            GameObject newCard = Instantiate(CardSimple, canvas.transform);
-            newCard.GetComponent<Card_Simple>().Set(card);
-        }
+        //foreach(var card in cards) {
+        //    GameObject newCard = Instantiate(CardDetail, canvas.transform);
+        //    newCard.GetComponent<Card_Detail>().Set(card);
+        //}
+        //foreach(var card in cards) {
+        //    GameObject newCard = Instantiate(CardSimple, canvas.transform);
+        //    newCard.GetComponent<Card_Simple>().Set(card);
+        //}
     }
+
+    
 }
