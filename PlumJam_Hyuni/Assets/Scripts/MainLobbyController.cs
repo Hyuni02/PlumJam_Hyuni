@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MainLobbyController : MonoBehaviour
 {
@@ -10,6 +11,10 @@ public class MainLobbyController : MonoBehaviour
 
     private void Start() {
         CloseAllPanel();
+    }
+
+    public void QuitGame() {
+        Application.Quit();
     }
 
     void CloseAllPanel() {
@@ -31,5 +36,9 @@ public class MainLobbyController : MonoBehaviour
     public void Open_Quit() {
         CloseAllPanel();
         pn_Quit.SetActive(true);
+    }
+
+    public void ToNextScene() {
+        SceneManager.LoadScene("2.Field");
     }
 }
