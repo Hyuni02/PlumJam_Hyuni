@@ -146,6 +146,7 @@ GameObject:
   - component: {fileID: 7024222995842012547}
   - component: {fileID: 5783091106793272901}
   - component: {fileID: -5588378409737327141}
+  - component: {fileID: 1046433631242532529}
   m_Layer: 5
   m_Name: WeekEnd
   m_TagString: Untagged
@@ -226,6 +227,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   txt_day: {fileID: 2000112399366497193}
   pn_Classess: {fileID: 871506161882323325}
+--- !u!114 &1046433631242532529
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2922140456104156986}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 1, g: 0, b: 0.7098484, a: 0.5}
+  m_EffectDistance: {x: 10, y: 10}
+  m_UseGraphicAlpha: 1
 --- !u!1 &7042061894732063356
 GameObject:
   m_ObjectHideFlags: 0

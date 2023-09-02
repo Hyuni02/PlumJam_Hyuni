@@ -11,6 +11,9 @@ public class GameManager : MonoBehaviour
 {
     public Transform vp_Week;
     public GameObject pn_ClassInfo;
+
+    public GameObject selectedClass;
+
     Week e_week;
     int week = 1;
     int maxweek = 14;
@@ -39,6 +42,8 @@ public class GameManager : MonoBehaviour
             }
         }
         Debug.LogWarning("마지막 주말을 콘서트로 설정 미구현");
+
+        EmphasizeToday();
     }
 
     void MakeDay(Week week) {
@@ -64,6 +69,7 @@ public class GameManager : MonoBehaviour
         btn.GetComponent<ClassInfo>().sprite = ImageLoader.instance.GetSprite(c.code);
         //print($"{btn.GetComponent<ClassInfo>().info.name} : {btn.GetComponent<ClassInfo>().info.prof}");
         btn.onClick.AddListener(() => ShowClassDetail(btn.GetComponent<ClassInfo>()));
+        btn.onClick.AddListener(() => SetSelectedClass(btn.transform));
     }
 
     void MakeRest(GameObject day) {
@@ -74,6 +80,20 @@ public class GameManager : MonoBehaviour
         btn.GetComponent<ClassInfo>().info.des= "일주일 중 유일한 휴식시간";
         btn.GetComponent<ClassInfo>().sprite = ImageLoader.instance.GetSprite("rest");
         btn.onClick.AddListener(() => ShowClassDetail(btn.GetComponent<ClassInfo>()));
+        btn.onClick.AddListener(() => SetSelectedClass(btn.transform));
+    }
+
+    void SetSelectedClass(Transform btn) {
+        selectedClass = btn.gameObject;
+
+        if(selectedClass.transform.parent.parent == vp_Week.GetChild(0)) {
+            pn_ClassInfo.GetComponent<pn_classinfo>().btn_listen.interactable = true;
+            pn_ClassInfo.GetComponent<pn_classinfo>().btn_tryrun.interactable = true;
+        }
+        else {
+            pn_ClassInfo.GetComponent<pn_classinfo>().btn_listen.interactable = false;
+            pn_ClassInfo.GetComponent<pn_classinfo>().btn_tryrun.interactable = false;
+        }
     }
 
     void ShowClassDetail(ClassInfo info) {
@@ -87,5 +107,9 @@ public class GameManager : MonoBehaviour
     void ClearClass(Transform t) {
         Debug.LogWarning($"수강 완료 : ");
         Instantiate(PrefabContainer.instance.img_Clear, t);
+    }
+
+    void EmphasizeToday() {
+        vp_Week.GetChild(0).GetComponent<Outline>().enabled = true;
     }
 }

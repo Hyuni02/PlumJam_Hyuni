@@ -74,6 +74,7 @@ GameObject:
   - component: {fileID: 8176604896403234147}
   - component: {fileID: 547741761936786786}
   - component: {fileID: -1599004536296711023}
+  - component: {fileID: -1557729657804873855}
   m_Layer: 5
   m_Name: WeekDay
   m_TagString: Untagged
@@ -154,6 +155,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   txt_day: {fileID: 199140903202030711}
   pn_Classess: {fileID: 85489618771782708}
+--- !u!114 &-1557729657804873855
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4938909505643037322}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 1, g: 0, b: 0.7098484, a: 0.5}
+  m_EffectDistance: {x: 10, y: 10}
+  m_UseGraphicAlpha: 1
 --- !u!1 &4950713456086537432
 GameObject:
   m_ObjectHideFlags: 0

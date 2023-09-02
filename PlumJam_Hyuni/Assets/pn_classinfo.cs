@@ -10,4 +10,6 @@ public class pn_classinfo : MonoBehaviour
     public TMP_Text txt_name;
     public TMP_Text txt_prof;
     public TMP_Text txt_des;
+    public Button btn_listen;
+    public Button btn_tryrun;
 }
