@@ -256,6 +256,22 @@ public class GameManager : MonoBehaviour
                 //}
             }
             if(assign.image == "질문") {
+                win = false;
+                for (int i = 0; i < lst_Field.Count; i++) {
+                    if (lst_Field[i].Ability >= assign.Ability) {
+                        lst_Field[i].current_HP--;
+                        win = true;
+                        break;
+                    }
+                }
+                for (int i = 0; i < lst_Field.Count; i++) {
+                    if (lst_Field[i].current_HP <= 0) {
+                        lst_Student.Add(lst_Field[i]);
+                        lst_Field.Remove(lst_Field[i]);
+                    }
+                }
+            }
+            if (assign.image == "연습문제") {
                 //win = false;
                 //for(int i = 0; i < lst_Field.Count; i++) {
                 //    lst_Field[i].current_HP--;
@@ -270,9 +286,6 @@ public class GameManager : MonoBehaviour
                 //        lst_Field.Remove(lst_Field[i]);
                 //    }
                 //}
-            }
-            if(assign.image == "연습문제") {
-
             }
         }
         UpdatePlayerHand();
