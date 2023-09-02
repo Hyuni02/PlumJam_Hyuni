@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Random = UnityEngine.Random;
 
 [Serializable]
 public class Student {
@@ -46,7 +47,11 @@ public class StudentDataLoader : MonoBehaviour
         }
     }
 
-    public Student GetStudentData(string name) {
+    public Student GetStudentData(string name = null) {
+        if(name == null) {
+            name = Data_Student[Random.Range(0, Data_Student.Count)].name;
+        }
+
         foreach(var st in Data_Student) {
             if (st.name == name) return st;
         }

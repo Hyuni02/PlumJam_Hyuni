@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 using System;
+using System.Linq;
 
 public enum Week { 월, 화, 수, 목, 금, 주말};
 
@@ -37,14 +38,9 @@ public class GameManager : MonoBehaviour
         Canvas_Schedule.SetActive(true);
         Canvas_Class.SetActive(false);
 
-        Card hyunji = new Card("김현지");
-        lst_Student.Add(hyunji); 
-        Card hyuni = new Card("전성현");
-        lst_Student.Add(hyuni); 
-        Card tokyo = new Card("김동경");
-        lst_Student.Add(tokyo);
-        Card jo = new Card("조용준");
-        lst_Student.Add(jo);
+        GetNewStudent();
+        GetNewStudent();
+        GetNewStudent();
     }
 
     public void Update() {
@@ -159,6 +155,40 @@ public class GameManager : MonoBehaviour
         print($"수강 완료 : {selectedClass.GetComponent<ClassInfo>().info.name}");
         Instantiate(PrefabContainer.instance.img_Clear, selectedClass.transform);
         selectedClass.GetComponent<ClassInfo>().clear = true;
+        ChangeScore();
+        GetNewStudent();
+    }
+
+    void GetNewStudent() {
+        //랜덤으로 학생 하나를 뽑음
+        Card newstudent = new Card(StudentDataLoader.instance.GetStudentData().name);
+        print($"new student : {newstudent.Name}");
+
+        bool exist = false;
+        Card Target = null;
+        foreach(var stu in lst_Student) {
+            if(stu.Name == newstudent.Name) {
+                exist = true;
+                Target = stu;
+                break;
+            }
+        }
+
+        //이미 있는 학생이면 해당 학생 체력 회복
+        if(exist) {
+            Target.current_HP = Target.HP;
+            print($"{newstudent.Name} 회복");
+            Debug.LogWarning("알림 미구현");
+        }
+        //새로운 학생이면 추가
+        else {
+            lst_Student.Add(newstudent);
+            print($"새로운 {newstudent.Name}");
+            Debug.LogWarning("알림 미구현");
+        }
+    }
+
+    void ChangeScore() {
         Debug.LogWarning("학점 변경 미구현");
     }
 
