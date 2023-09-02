@@ -41,7 +41,8 @@ public class GameManager : MonoBehaviour
                 MakeDay((Week)Enum.ToObject(typeof(Week), d));
             }
         }
-        Debug.LogWarning("마지막 주말을 콘서트로 설정 미구현");
+        //Debug.LogWarning("마지막 주말을 콘서트로 설정 미구현");
+        MakeConcert();
 
         EmphasizeToday();
     }
@@ -83,12 +84,34 @@ public class GameManager : MonoBehaviour
         btn.onClick.AddListener(() => SetSelectedClass(btn.transform));
     }
 
+    void MakeConcert() {
+        GameObject day = vp_Week.GetChild(vp_Week.childCount - 1).gameObject;
+        for(int i=0;i< day.GetComponent<Day>().pn_Classess.childCount; i++) {
+            Destroy(day.GetComponent<Day>().pn_Classess.GetChild(i).gameObject);
+        }
+        Debug.LogWarning("콘서트 다양성 미구현");
+        Button btn = Instantiate(PrefabContainer.instance.btn_Class, day.GetComponent<Day>().pn_Classess);
+        btn.GetComponent<Image>().sprite = ImageLoader.instance.GetSprite("rest");
+        btn.GetComponent<ClassInfo>().info.name = "콘서트";
+        btn.GetComponent<ClassInfo>().info.prof = "아이돌 이름";
+        btn.GetComponent<ClassInfo>().info.des = "기다리고 기다리던 콘서트";
+        btn.GetComponent<ClassInfo>().sprite = ImageLoader.instance.GetSprite("rest");
+        btn.onClick.AddListener(() => ShowClassDetail(btn.GetComponent<ClassInfo>()));
+        btn.onClick.AddListener(() => SetSelectedClass(btn.transform));
+    }
+
     void SetSelectedClass(Transform btn) {
         selectedClass = btn.gameObject;
 
         if(selectedClass.transform.parent.parent == vp_Week.GetChild(0)) {
-            pn_ClassInfo.GetComponent<pn_classinfo>().btn_listen.interactable = true;
-            pn_ClassInfo.GetComponent<pn_classinfo>().btn_tryrun.interactable = true;
+            if (!selectedClass.GetComponent<ClassInfo>().clear) {
+                pn_ClassInfo.GetComponent<pn_classinfo>().btn_listen.interactable = true;
+                pn_ClassInfo.GetComponent<pn_classinfo>().btn_tryrun.interactable = true;
+            }
+            else {
+                pn_ClassInfo.GetComponent<pn_classinfo>().btn_listen.interactable = false;
+                pn_ClassInfo.GetComponent<pn_classinfo>().btn_tryrun.interactable = false;
+            }
         }
         else {
             pn_ClassInfo.GetComponent<pn_classinfo>().btn_listen.interactable = false;
@@ -104,12 +127,30 @@ public class GameManager : MonoBehaviour
         pn_ClassInfo.GetComponent<pn_classinfo>().txt_name.SetText(info.info.name);
     }
 
-    void ClearClass(Transform t) {
-        Debug.LogWarning($"수강 완료 : ");
-        Instantiate(PrefabContainer.instance.img_Clear, t);
+    public void ClearClass() {
+        print($"수강 완료 : {selectedClass.GetComponent<ClassInfo>().info.name}");
+        Instantiate(PrefabContainer.instance.img_Clear, selectedClass.transform);
+        selectedClass.GetComponent<ClassInfo>().clear = true;
     }
 
     void EmphasizeToday() {
         vp_Week.GetChild(0).GetComponent<Outline>().enabled = true;
+    }
+
+    public void ToTomorrow() {
+        Debug.LogWarning("내일로 가는 애니메이션 미구현");
+        DestroyImmediate(vp_Week.GetChild(0).gameObject);
+        EmphasizeToday();
+        CheckClear();
+    }
+
+    public void CheckClear() {
+        GameObject clear = GameObject.FindGameObjectWithTag("clear");
+        if(clear == null) {
+            pn_WeekInfo.instance.btn_Totomorrow.interactable = false;
+        }
+        else {
+            pn_WeekInfo.instance.btn_Totomorrow.interactable = true;
+        }
     }
 }

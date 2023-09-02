@@ -8,4 +8,5 @@ public class ClassInfo : MonoBehaviour {
     [SerializeField]
     public cClass info;
     public Sprite sprite;
+    public bool clear = false;
 }

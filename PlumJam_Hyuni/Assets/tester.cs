@@ -12,8 +12,6 @@ public class tester : MonoBehaviour
     public GameObject CardSimple;
 
     private void Start() {
-        Card baek = new Card("백수진");
-        cards.Add(baek);
         Card hyunji = new Card("김현지");
         cards.Add(hyunji);
 

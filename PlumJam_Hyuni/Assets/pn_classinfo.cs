@@ -12,4 +12,8 @@ public class pn_classinfo : MonoBehaviour
     public TMP_Text txt_des;
     public Button btn_listen;
     public Button btn_tryrun;
+
+    private void Start() {
+        gameObject.SetActive(false);
+    }
 }
