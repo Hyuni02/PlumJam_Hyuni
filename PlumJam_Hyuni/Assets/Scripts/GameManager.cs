@@ -243,20 +243,33 @@ public class GameManager : MonoBehaviour
         //판정 부분
         foreach(var assign in Assignment) {
             if(assign.image == "수업") {
-                if (lst_Field.Count == 0) {
-                    win = false;
-                    break;
-                }
-                for(int i=0;i<lst_Field.Count;i++) {
+                //if (lst_Field.Count == 0) {
+                //    win = false;
+                //    break;
+                //}
+                //for(int i=0;i<lst_Field.Count;i++) {
+                //    lst_Field[i].current_HP--;
+                //    if(lst_Field[i].current_HP <= 0) {
+                //        lst_Student.Add(lst_Field[i]);
+                //        lst_Field.Remove(lst_Field[i]);
+                //    }
+                //}
+            }
+            if(assign.image == "질문") {
+                win = false;
+                for(int i = 0; i < lst_Field.Count; i++) {
                     lst_Field[i].current_HP--;
-                    if(lst_Field[i].current_HP <= 0) {
+                    if(lst_Field[i].Ability >= assign.Ability) {
+                        win = true;
+                        break;
+                    }
+                }
+                for (int i = 0; i < lst_Field.Count; i++) {
+                    if (lst_Field[i].current_HP <= 0) {
                         lst_Student.Add(lst_Field[i]);
                         lst_Field.Remove(lst_Field[i]);
                     }
                 }
-            }
-            if(assign.image == "질문") {
-
             }
             if(assign.image == "연습문제") {
 
