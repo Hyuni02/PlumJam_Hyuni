@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviour
     //int maxweek = 14;
     int level = 1;
     int phase = 0;
+    int cphase = 0;
     List<List<Lesson>> lst_lessons;
 
     void Start()
@@ -181,7 +182,7 @@ public class GameManager : MonoBehaviour
     }
 
     void StartLesson() {
-        Debug.LogWarning("교수 인사 미구현");
+        pn_class.instance.txt_talk.SetText(GreetingDataLoader.instance.GetGreetingData(selectedClass.GetComponent<ClassInfo>().info.prof, "인사").talk);
 
         lst_lessons = new List<List<Lesson>>();
         phase = (int)Random.Range(0, 2 + level) + 1;
@@ -194,6 +195,54 @@ public class GameManager : MonoBehaviour
                 //print($"phase {i} : {l.type} : {l.des}");
             }
         }
+        print(phase);
+        PlayProfessorTurn(0);
+    }
 
+    void PlayProfessorTurn(int phase) {
+        for(int i = 0; i < pn_class.instance.pn_assignment.transform.childCount; i++) {
+            Destroy(pn_class.instance.pn_assignment.transform.GetChild(i).gameObject);
+        }
+        List<Card> Assignment = new List<Card>();
+        foreach (var card in lst_lessons[phase]) {
+            Card c = new Card(card.prof, true);
+            Assignment.Add(c);
+        }
+        foreach (var assign in Assignment) {
+            GameObject ass = Instantiate(PrefabContainer.instance.Card_Simple, pn_class.instance.pn_assignment.transform);
+            ass.GetComponent<Card_Simple>().Set(assign);
+        }
+        StartPlayerTurn();
+    }
+
+    void StartPlayerTurn() {
+        print("플레이어 턴 시작");
+    }
+
+    public void EndPlayerTurn() {
+        print("플레이어 턴 종료");
+        Debug.LogWarning("판정 미구현");
+
+        //승리
+        if (true) {
+            cphase++;
+            if (cphase < phase) {
+                PlayProfessorTurn(cphase);
+                return;
+            }
+            else {
+                Canvas_Class.SetActive(false);
+                Canvas_Schedule.SetActive(true);
+                ClearClass();
+                CheckClear();
+            }
+        }
+        else {
+            //패배
+            Canvas_Class.SetActive(false);
+            Canvas_Schedule.SetActive(true);
+            FailClass();
+            CheckClear();
+        }
     }
 }

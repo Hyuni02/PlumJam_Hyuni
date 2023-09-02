@@ -16,6 +16,9 @@ public class pn_class : MonoBehaviour
     public Image img_player;
     public Button btn_student;
 
+    public GameObject pn_student;
+    public GameObject pn_assignment;
+
     private void Awake() {
         if(instance != null) {
             Destroy(this);
