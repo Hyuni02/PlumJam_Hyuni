@@ -20,17 +20,34 @@ public class ImageLoader : MonoBehaviour {
         Sprite[] sprites = Resources.LoadAll<Sprite>("Image/student");
         foreach(var s in sprites) {
             dic_Sprite.Add(s.name, s);
+            //print($"image add {s.name}");
+        }
+        sprites = Resources.LoadAll<Sprite>("Image/professor");
+        foreach (var s in sprites) {
+            dic_Sprite.Add(s.name, s);
+            //print($"image add {s.name}");
+        }
+        sprites = Resources.LoadAll<Sprite>("Image/etc");
+        foreach (var s in sprites) {
+            dic_Sprite.Add(s.name, s);
+            //print($"image add {s.name}");
         }
     }
 
     public Sprite GetSprite(string code) {
-        Sprite sprite = dic_Sprite[code];
+        Sprite sprite = null;
+        try {
+            sprite = dic_Sprite[code];
+        }
+        catch {
+            Debug.LogWarning($"No sprite : {code}");
+        }
 
         if(sprite == null) {
             Debug.LogWarning($"No sprite : {code}");
         }
         else {
-            Debug.Log($"Get sprite : {code}");
+            //Debug.Log($"Get sprite : {code}");
         }
 
         return sprite;
