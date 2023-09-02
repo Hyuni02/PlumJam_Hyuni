@@ -14,10 +14,13 @@ public class pn_class : MonoBehaviour
     public TMP_Text txt_talk;
 
     public Image img_player;
-    public Button btn_student;
+    public Toggle btn_student;
 
     public GameObject pn_student;
     public GameObject pn_assignment;
+
+    public GameObject pn_PlayerHand;
+    public GameObject vp_PlayerHand;
 
     private void Awake() {
         if(instance != null) {

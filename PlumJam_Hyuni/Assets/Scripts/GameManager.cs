@@ -25,6 +25,10 @@ public class GameManager : MonoBehaviour
     int cphase = 0;
     List<List<Lesson>> lst_lessons;
 
+    public List<Card> Assignment = new List<Card>();
+    public List<Card> lst_Student = new List<Card>();
+    public List<Card> lst_Field = new List<Card>();
+
     void Start()
     {
         Debug.LogWarning("저장 데이터 불러오기 미구현");
@@ -32,6 +36,15 @@ public class GameManager : MonoBehaviour
         WeekSchedule();
         Canvas_Schedule.SetActive(true);
         Canvas_Class.SetActive(false);
+
+        Card hyunji = new Card("김현지");
+        lst_Student.Add(hyunji); 
+        Card hyuni = new Card("전성현");
+        lst_Student.Add(hyuni); 
+        Card tokyo = new Card("김동경");
+        lst_Student.Add(tokyo);
+        Card jo = new Card("조용준");
+        lst_Student.Add(jo);
     }
 
     void Clear_Week() {
@@ -182,8 +195,10 @@ public class GameManager : MonoBehaviour
     }
 
     void StartLesson() {
+        cphase = 0;
         pn_class.instance.txt_talk.SetText(GreetingDataLoader.instance.GetGreetingData(selectedClass.GetComponent<ClassInfo>().info.prof, "인사").talk);
-
+        pn_class.instance.pn_PlayerHand.SetActive(false);
+        pn_class.instance.btn_student.GetComponent<Toggle>().isOn = false;
         lst_lessons = new List<List<Lesson>>();
         phase = (int)Random.Range(0, 2 + level) + 1;
         for(int i = 0; i < phase; i++) {
@@ -203,7 +218,7 @@ public class GameManager : MonoBehaviour
         for(int i = 0; i < pn_class.instance.pn_assignment.transform.childCount; i++) {
             Destroy(pn_class.instance.pn_assignment.transform.GetChild(i).gameObject);
         }
-        List<Card> Assignment = new List<Card>();
+        Assignment.Clear();
         foreach (var card in lst_lessons[phase]) {
             Card c = new Card(card.prof, true);
             Assignment.Add(c);
@@ -217,14 +232,39 @@ public class GameManager : MonoBehaviour
 
     void StartPlayerTurn() {
         print("플레이어 턴 시작");
+        pn_class.instance.pn_PlayerHand.SetActive(true);
+        pn_class.instance.btn_student.GetComponent<Toggle>().isOn = true;
     }
 
     public void EndPlayerTurn() {
         print("플레이어 턴 종료");
         Debug.LogWarning("판정 미구현");
+        bool win = true;
+        //판정 부분
+        foreach(var assign in Assignment) {
+            if(assign.image == "수업") {
+                if (lst_Field.Count == 0) {
+                    win = false;
+                    break;
+                }
+                for(int i=0;i<lst_Field.Count;i++) {
+                    lst_Field[i].current_HP--;
+                    if(lst_Field[i].current_HP <= 0) {
+                        lst_Student.Add(lst_Field[i]);
+                        lst_Field.Remove(lst_Field[i]);
+                    }
+                }
+            }
+            if(assign.image == "질문") {
 
+            }
+            if(assign.image == "연습문제") {
+
+            }
+        }
+        UpdatePlayerHand();
         //승리
-        if (true) {
+        if (win) {
             cphase++;
             if (cphase < phase) {
                 PlayProfessorTurn(cphase);
@@ -244,5 +284,59 @@ public class GameManager : MonoBehaviour
             FailClass();
             CheckClear();
         }
+        ResetField();
+    }
+
+    void ResetField() {
+         for(int i = 0; i < pn_class.instance.pn_student.transform.childCount; i++) {
+            Destroy(pn_class.instance.pn_student.transform.GetChild(i).gameObject);
+         }
+        foreach (var card in lst_Field) {
+            lst_Student.Add(card);
+        }
+        lst_Field.Clear();
+    }
+
+    public void TogglePlayerHand(Toggle tog) {
+        pn_class.instance.pn_PlayerHand.SetActive(tog.isOn);
+        UpdatePlayerHand();
+    }
+
+    void UpdatePlayerHand() {
+        for(int i=0;i< pn_class.instance.vp_PlayerHand.transform.childCount; i++) {
+            Destroy(pn_class.instance.vp_PlayerHand.transform.GetChild(i).gameObject);
+        }
+
+        foreach (var card in lst_Student) {
+            GameObject newCard = Instantiate(PrefabContainer.instance.Card_Detail, pn_class.instance.vp_PlayerHand.transform);
+            newCard.GetComponent<Card_Detail>().Set(card);
+            newCard.GetComponent<Card_Detail>().btn_onclick.onClick.AddListener(() => OnClickCardDetail(newCard.GetComponent<Card_Detail>().c));
+        }
+        UpdateField();
+    }
+    
+    void UpdateField() {
+        for (int i = 0; i < pn_class.instance.pn_student.transform.childCount; i++) {
+            Destroy(pn_class.instance.pn_student.transform.GetChild(i).gameObject);
+        }
+
+        foreach(var card in lst_Field) {
+            GameObject newCard = Instantiate(PrefabContainer.instance.Card_Simple, pn_class.instance.pn_student.transform);
+            newCard.GetComponent<Card_Simple>().Set(card);
+            newCard.GetComponent<Card_Simple>().btn_onclick.onClick.AddListener(() => OnClickCardSimple(newCard.GetComponent<Card_Simple>().c));
+        }
+    }
+
+    void OnClickCardDetail(Card card) {
+        if (card.current_HP <= 0) return;
+        lst_Field.Add(card);
+        lst_Student.Remove(card);
+        UpdatePlayerHand();
+    }
+    
+    void OnClickCardSimple(Card card) {
+        lst_Student.Add(card);
+        lst_Field.Remove(card);
+        UpdatePlayerHand();
     }
 }
