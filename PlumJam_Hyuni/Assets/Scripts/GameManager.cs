@@ -173,7 +173,7 @@ public class GameManager : MonoBehaviour
     public void SetClass() {
         pn_class.instance.img_prof.sprite = selectedClass.GetComponent<ClassInfo>().sprite;
         pn_class.instance.txt_classname.SetText(selectedClass.GetComponent<ClassInfo>().info.name);
-        //StartLesson();
+        StartLesson();
     }
 
     public void ShowStudents() {
@@ -187,11 +187,13 @@ public class GameManager : MonoBehaviour
         phase = (int)Random.Range(0, 2 + level) + 1;
         for(int i = 0; i < phase; i++) {
             int lesson = (int)Random.Range(0, 2 + level) + 1;
+            lst_lessons.Add(new List<Lesson>());
             for(int j = 0; j < lesson; j++) {
                 Lesson l = LessonDataLoader.instance.GetLessonData(selectedClass.GetComponent<ClassInfo>().info.prof);
-                //lst_lessons[i].Add(l);
-                print($"phase {i} : {l.type} : {l.des}");
+                lst_lessons[i].Add(l);
+                //print($"phase {i} : {l.type} : {l.des}");
             }
         }
+
     }
 }
